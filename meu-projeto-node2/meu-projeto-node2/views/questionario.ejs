@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= title %></title>
+  <style>
+    body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f5f5f5;
+  margin: 0;
+  padding: 40px;
+  color: #333;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+form {
+  background: #fff;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,.1);
+}
+
+label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 6px;
+}
+
+input[type="text"],
+input[type="number"],
+select,
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #bbb;
+  border-radius: 5px;
+  outline: none;
+  transition: border .2s ease;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #0077ff;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
+  border: none;
+  background: #0077ff;
+  color: #fff;
+  font-size: 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background .2s;
+}
+
+button:hover {
+  background: #005fcc;
+}
+
+span {
+  color: #e60000;
+  font-size: 13px;
+}
+  </style>
+</head>
+<body>
+  <h1>Questionário sobre Futebol</h1>
+
+  <form action="/questionario" method="POST">
+
+    <label>Seu Nome:</label><br>
+    <input type="text" name="nome" value="<%= data.nome || '' %>">
+    <span><%= errors.nome?.msg %></span>
+    <br><br>
+
+    <label>Time Favorito:</label><br>
+    <input type="text" name="time_favorito" value="<%= data.time_favorito || '' %>">
+    <span><%= errors.time_favorito?.msg %></span>
+    <br><br>
+
+    <label>Você já jogou futebol?</label><br>
+    <input type="radio" name="jogava" value="sim" <%= data.jogava === 'sim' ? 'checked' : '' %>> Sim
+    <input type="radio" name="jogava" value="nao" <%= data.jogava === 'nao' ? 'checked' : '' %>> Não
+    <span><%= errors.jogava?.msg %></span>
+    <br><br>
+
+    <label>Posição favorita:</label><br>
+    <select name="posicao">
+      <option value="">Selecione</option>
+      <option value="goleiro" <%= data.posicao === 'goleiro' ? 'selected' : '' %>>Goleiro</option>
+      <option value="zagueiro" <%= data.posicao === 'zagueiro' ? 'selected' : '' %>>Zagueiro</option>
+      <option value="lateral" <%= data.posicao === 'lateral' ? 'selected' : '' %>>Lateral</option>
+      <option value="meio" <%= data.posicao === 'meio' ? 'selected' : '' %>>Meio-campo</option>
+      <option value="atacante" <%= data.posicao === 'atacante' ? 'selected' : '' %>>Atacante</option>
+    </select>
+    <span><%= errors.posicao?.msg %></span>
+    <br><br>
+
+    <label>Número da camisa favorito:</label><br>
+    <input type="number" name="camisa_numero" value="<%= data.camisa_numero || '' %>">
+    <span><%= errors.camisa_numero?.msg %></span>
+    <br><br>
+
+    <label>Estádio que já visitou:</label><br>
+    <input type="text" name="estadio_visitado" value="<%= data.estadio_visitado || '' %>">
+    <span><%= errors.estadio_visitado?.msg %></span>
+    <br><br>
+
+    <label>Melhor jogador para você:</label><br>
+    <input type="text" name="melhor_jogador" value="<%= data.melhor_jogador || '' %>">
+    <span><%= errors.melhor_jogador?.msg %></span>
+    <br><br>
+
+    <label>Qual competição você mais torce?</label><br>
+    <select name="comp_torce">
+      <option value="brasileirao">Brasileirão</option>
+      <option value="libertadores">Libertadores</option>
+      <option value="champions">Champions</option>
+      <option value="copa-do-mundo">Copa do Mundo</option>
+    </select>
+    <span><%= errors.comp_torce?.msg %></span>
+    <br><br>
+
+    <label>Técnicos que você gosta:</label><br>
+    <% const tecnicos = ['tite','diniz','ancelotti','guardiola','mourinho']; %>
+    <% tecnicos.forEach(t => { %>
+      <input type="checkbox" name="tecnicos_gostados" value="<%= t %>"
+        <%= data.tecnicos_gostados?.includes(t) ? 'checked' : '' %> >
+      <%= t.toUpperCase() %> <br>
+    <% }) %>
+    <span><%= errors.tecnicos_gostados?.msg %></span>
+    <br><br>
+
+    <label>Comentário:</label><br>
+    <textarea name="comentario"><%= data.comentario || '' %></textarea>
+    <span><%= errors.comentario?.msg %></span>
+    <br><br>
+
+    <button type="submit">Enviar</button>
+  </form>
+</body>
+</html>
